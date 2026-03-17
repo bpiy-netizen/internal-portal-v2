@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>51Talk - High Quality QR Fix</title>
+    <title>51Talk - Updated Content HQ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -19,7 +19,6 @@
             box-shadow: 0 40px 100px rgba(0,0,0,0.1);
             border: 12px solid white;
         }
-        /* كود الـ QR بوضوح عالي جداً وحواف حادة */
         #qrcode canvas, #qrcode img {
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
@@ -52,16 +51,16 @@
             
             <div class="grid grid-cols-2 gap-4 mb-8">
                 <div class="flex items-center gap-3 bg-white/50 p-4 rounded-2xl border border-white/80 text-right shadow-sm">
-                    <span class="text-2xl">🌍</span> <p class="text-blue-950 font-bold text-xs">منصة عالمية</p>
+                    <span class="text-2xl">🌍</span> <p class="text-blue-950 font-bold text-[10px] md:text-xs">منصة عالمية ومعلمين أجانب</p>
                 </div>
                 <div class="flex items-center gap-3 bg-white/50 p-4 rounded-2xl border border-white/80 text-right shadow-sm">
-                    <span class="text-2xl">🎁</span> <p class="text-blue-950 font-bold text-xs">حصة مجانية</p>
+                    <span class="text-2xl">🎁</span> <p class="text-blue-950 font-bold text-[10px] md:text-xs">حصة تقييمية مجانية</p>
                 </div>
                 <div class="flex items-center gap-3 bg-white/50 p-4 rounded-2xl border border-white/80 text-right shadow-sm">
-                    <span class="text-2xl">🗣️</span> <p class="text-blue-950 font-bold text-xs">تحدث بطلاقة</p>
+                    <span class="text-2xl">🗣️</span> <p class="text-blue-950 font-bold text-[10px] md:text-xs">التركيز على التحدث بطلاقة</p>
                 </div>
                 <div class="flex items-center gap-3 bg-white/50 p-4 rounded-2xl border border-white/80 text-right shadow-sm">
-                    <span class="text-2xl">⏳</span> <p class="text-blue-950 font-bold text-xs">حصص فردية</p>
+                    <span class="text-2xl">⏳</span> <p class="text-blue-950 font-bold text-[10px] md:text-xs">حصص فردية وأوقات مرنة</p>
                 </div>
             </div>
 
@@ -105,7 +104,6 @@
     </div>
 
     <script>
-        // إعدادات الـ QR لضمان أعلى دقة ممكنة (256px وبدون هوامش داخلية)
         let qrcode = new QRCode(document.getElementById("qrcode"), {
             width: 200, height: 200, colorDark : "#000000", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H
         });
@@ -132,7 +130,7 @@
 
             setTimeout(() => {
                 html2canvas(card, {
-                    scale: 4, // رفع الـ Scale لضمان وضوح الـ QR عند الحفظ
+                    scale: 4, 
                     useCORS: true, 
                     backgroundColor: null,
                     imageTimeout: 0,
@@ -142,7 +140,7 @@
                     }
                 }).then(canvas => {
                     const link = document.createElement('a');
-                    link.download = `51Talk-GiftCard-HQ.png`;
+                    link.download = `51Talk-GiftCard-Final.png`;
                     link.href = canvas.toDataURL("image/png", 1.0);
                     link.click();
                     btn.innerText = "📸 حفظ الصورة (QR فائق الوضوح)"; btn.disabled = false;
