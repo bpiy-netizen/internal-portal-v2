@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>51Talk Gift Card - QR Fixed</title>
+    <title>51Talk - Perfect QR Scan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -11,32 +11,30 @@
     <style>
         body { 
             font-family: 'Cairo', sans-serif; 
-            background: radial-gradient(circle at top left, #e0f2fe 0%, #f3f4f6 50%, #dbeafe 100%);
-            min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: #f0f4f8; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .golden-card { 
             background: linear-gradient(135deg, #f6e8b1 0%, #fdf5d7 100%);
             box-shadow: 0 40px 100px rgba(30, 58, 138, 0.15); border: 12px solid white;
         }
-        .course-badge { 
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.9);
-        }
-        /* تحسين مظهر الـ QR لضمان السكان */
-        #qrcode img {
+        /* سر الحل: جعل الـ QR حاد جداً ومتباين */
+        #qrcode canvas, #qrcode img {
+            image-rendering: pixelated; /* منع التنعيم */
+            image-rendering: crisp-edges;
+            display: block;
             margin: auto;
-            border: 8px solid white;
-            border-radius: 1rem;
         }
+        .course-badge { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.9); }
         @media print { .no-print { display: none; } }
     </style>
 </head>
-<body class="p-4 relative">
-    
-    <div id="referral-card" class="max-w-2xl w-full golden-card rounded-[4rem] overflow-hidden relative p-8 md:p-12 z-10 mx-auto">
+<body class="p-4">
+
+    <div id="referral-card" class="max-w-2xl w-full golden-card rounded-[4rem] overflow-hidden relative p-8 md:p-12 mx-auto">
         <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-6">
-            <img src="logo.png" alt="51Talk" class="h-20 md:h-24 w-auto object-contain" crossorigin="anonymous">
-            <div class="text-center bg-white/70 px-6 py-3 rounded-2xl border border-white shadow-sm">
-                <p class="text-[10px] text-blue-900/60 font-black uppercase tracking-widest mb-1">المستشار التعليمي المعتمد</p>
+            <img src="logo.png" alt="51Talk" class="h-20 md:h-24 w-auto object-contain">
+            <div class="text-center bg-white/70 px-6 py-3 rounded-2xl border border-white">
+                <p class="text-[10px] text-blue-900/60 font-black mb-1">المستشار التعليمي المعتمد</p>
                 <h2 id="display-consultant" class="text-2xl font-black text-blue-950">البندري</h2>
             </div>
         </div>
@@ -47,20 +45,20 @@
             
             <div class="grid grid-cols-2 gap-4 mb-8">
                 <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm text-right">
-                    <span class="text-2xl">🌍</span> <p class="text-blue-950 font-bold text-[10px] md:text-xs">منصة عالمية ومعلمين أجانب</p>
+                    <span class="text-2xl">🌍</span> <p class="text-blue-950 font-bold text-[10px]">منصة عالمية ومعلمين أجانب</p>
                 </div>
                 <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm text-right">
-                    <span class="text-2xl">🎁</span> <p class="text-blue-950 font-bold text-[10px] md:text-xs">حصة تجريبية مجانية تماماً</p>
+                    <span class="text-2xl">🎁</span> <p class="text-blue-950 font-bold text-[10px]">حصة تجريبية مجانية تماماً</p>
                 </div>
                 <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm text-right">
-                    <span class="text-2xl">🗣️</span> <p class="text-blue-950 font-bold text-[10px] md:text-xs">تركيز على التحدث بطلاقة</p>
+                    <span class="text-2xl">🗣️</span> <p class="text-blue-950 font-bold text-[10px]">تركيز على التحدث بطلاقة</p>
                 </div>
                 <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm text-right">
-                    <span class="text-2xl">⏳</span> <p class="text-blue-950 font-bold text-[10px] md:text-xs">حصص فردية وأوقات مرنة</p>
+                    <span class="text-2xl">⏳</span> <p class="text-blue-950 font-bold text-[10px]">حصص فردية وأوقات مرنة</p>
                 </div>
             </div>
 
-            <div class="bg-blue-950/10 rounded-[2.5rem] p-6 border border-blue-950/5 shadow-inner">
+            <div class="bg-blue-950/10 rounded-[2.5rem] p-6 border border-blue-950/5">
                 <p class="text-xs font-black text-blue-900/70 mb-4 tracking-tighter">حدد مسارك التعليمي المفضل:</p>
                 <div class="flex flex-wrap justify-center gap-3">
                     <div class="course-badge px-4 py-2 rounded-full text-[10px] font-black text-blue-950 shadow-sm">💼 إنجليزية الأعمال</div>
@@ -71,8 +69,8 @@
         </div>
 
         <div class="flex flex-col items-center border-t border-blue-900/10 pt-8">
-            <div class="bg-white p-2 rounded-[2rem] shadow-2xl mb-4 border-[6px] border-blue-900/10 overflow-hidden">
-                <div id="qrcode" class="flex justify-center items-center"></div>
+            <div class="bg-white p-3 rounded-[2rem] shadow-2xl mb-4 border-[6px] border-blue-900/10">
+                <div id="qrcode"></div>
             </div>
             <p class="text-blue-950 font-black mb-3">امسح الكود للحجز المباشر</p>
             
@@ -82,34 +80,32 @@
             </div>
 
             <div class="flex items-center gap-12 bg-white/60 px-12 py-5 rounded-[2.5rem] border border-white/50 shadow-sm">
-                <img src="tabby.png" alt="Tabby" class="h-8 w-auto" crossorigin="anonymous">
+                <img src="tabby.png" alt="Tabby" class="h-8 w-auto">
                 <div class="w-px h-10 bg-blue-900/10"></div>
-                <img src="tamara.png" alt="Tamara" class="h-8 w-auto" crossorigin="anonymous">
+                <img src="tamara.png" alt="Tamara" class="h-8 w-auto">
             </div>
         </div>
     </div>
 
-    <div class="mt-8 bg-white/80 backdrop-blur-md p-8 rounded-[2.5rem] shadow-2xl border border-white w-full max-w-md no-print mx-auto mb-10">
-        <h3 class="font-black text-blue-900 mb-6 text-center border-b pb-4">تخصيص البطاقة</h3>
+    <div class="mt-8 bg-white p-8 rounded-[2.5rem] shadow-2xl border border-white w-full max-w-md no-print mx-auto mb-10 text-center">
+        <h3 class="font-black text-blue-900 mb-6 border-b pb-4">تخصيص البطاقة</h3>
         <div class="space-y-4">
-            <input type="text" id="input-student" placeholder="اسم صديق الطالب" class="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 font-bold" oninput="updateCard()">
-            <input type="text" id="input-consultant" placeholder="اسم المستشار" class="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 font-bold" oninput="updateCard()">
-            <input type="text" id="input-phone" placeholder="962775552764" class="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 font-bold" oninput="updateCard()">
-            <button onclick="saveCardAsImage()" class="w-full bg-blue-950 text-white font-black py-5 rounded-2xl shadow-xl hover:bg-blue-900 transition-all flex items-center justify-center gap-3">
-                <span>📸</span> حفظ كصورة (سكان مضمون)
+            <input type="text" id="input-student" placeholder="اسم صديق الطالب" class="w-full bg-gray-50 border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 font-bold" oninput="updateCard()">
+            <input type="text" id="input-consultant" placeholder="اسم المستشار" class="w-full bg-gray-50 border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 font-bold" oninput="updateCard()">
+            <input type="text" id="input-phone" placeholder="962775552764" class="w-full bg-gray-50 border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 font-bold" oninput="updateCard()">
+            <button onclick="saveCardAsImage()" class="w-full bg-blue-950 text-white font-black py-5 rounded-2xl shadow-xl hover:bg-blue-900 transition-all">
+                📸 حفظ الصورة (دقة فائقة للسكان)
             </button>
         </div>
     </div>
 
     <script>
-        // دالة إنشاء QR Code مع تحسين الحواف
-        let qrcodeContainer = document.getElementById("qrcode");
-        let qrcode = new QRCode(qrcodeContainer, {
-            width: 200, // زيادة الحجم لرفع الدقة
-            height: 200,
-            colorDark : "#000000",
+        let qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 180,
+            height: 180,
+            colorDark : "#000000", // أسود خالص للسكان
             colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H // أعلى مستوى لتصحيح الخطأ
+            correctLevel : QRCode.CorrectLevel.H // أعلى جودة تصحيح
         });
 
         function updateCard() {
@@ -129,37 +125,31 @@
             qrcode.makeCode(whatsappUrl);
         }
 
-        async function saveCardAsImage() {
+        function saveCardAsImage() {
             const card = document.getElementById('referral-card');
             const btn = event.currentTarget;
-            btn.innerText = "جاري الحفظ..."; btn.disabled = true;
+            btn.innerText = "جاري تحسين الجودة..."; btn.disabled = true;
 
-            // التأكد من تحويل الـ QR إلى صورة ثابتة قبل التصوير
-            const qrCanvas = qrcodeContainer.querySelector('canvas');
-            if (qrCanvas) {
-                const qrImage = qrcodeContainer.querySelector('img');
-                qrImage.src = qrCanvas.toDataURL("image/png");
-            }
-
-            // تأخير بسيط لضمان تحديث الـ DOM
+            // الانتظار قليلاً لضمان استقرار الرسم
             setTimeout(() => {
                 html2canvas(card, {
-                    scale: 3, // جودة 3x لضمان دقة مربعات الـ QR
+                    scale: 4, // رفع الدقة لـ 4 أضعاف لضمان حدة الـ QR
                     useCORS: true,
                     backgroundColor: null,
                     borderRadius: 40,
-                    logging: false,
                     onclone: (clonedDoc) => {
-                        clonedDoc.querySelectorAll('p, h2').forEach(el => { el.style.display = 'block'; });
+                        // التأكد من أن النصوص والـ QR ظاهرة بوضوح في النسخة المنسوخة
+                        const clonedQR = clonedDoc.getElementById('qrcode');
+                        clonedQR.style.imageRendering = 'pixelated';
                     }
                 }).then(canvas => {
                     const link = document.createElement('a');
-                    link.download = `51Talk-Card-${Date.now()}.png`;
+                    link.download = `51Talk-PRO-Card.png`;
                     link.href = canvas.toDataURL("image/png", 1.0);
                     link.click();
-                    btn.innerText = "📸 حفظ كصورة (سكان مضمون)"; btn.disabled = false;
+                    btn.innerText = "📸 حفظ الصورة (دقة فائقة للسكان)"; btn.disabled = false;
                 });
-            }, 500);
+            }, 600); // تأخير لضمان استقرار المعالج
         }
 
         updateCard();
