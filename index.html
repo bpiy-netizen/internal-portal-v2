@@ -6,16 +6,20 @@
     <title>بطاقة إهداء 51Talk الاحترافية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Cairo', sans-serif; 
-            /* خلفية متدرجة احترافية تدل على الثقة والتعليم */
             background: radial-gradient(circle at top left, #e0f2fe 0%, #f3f4f6 50%, #dbeafe 100%);
-            min-h-screen;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            items-center;
+            justify-content: center;
         }
         
-        /* البطاقة الذهبية مع تأثير الزجاج الباهت */
         .golden-card { 
             background: linear-gradient(135deg, #f6e8b1 0%, #fdf5d7 100%);
             box-shadow: 0 40px 100px rgba(30, 58, 138, 0.15);
@@ -26,12 +30,8 @@
             background: rgba(255, 255, 255, 0.6); 
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255,255,255,0.9);
-            transition: transform 0.2s;
         }
-        
-        .course-badge:hover { transform: translateY(-2px); }
 
-        /* إضافة لمسات خلفية برمجية (دوائر تعليمية) */
         .bg-pattern {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -44,13 +44,13 @@
         @media print { .no-print { display: none; } }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center p-4 relative">
+<body class="p-4 relative">
     <div class="bg-pattern"></div>
 
-    <div id="referral-card" class="max-w-2xl w-full golden-card rounded-[4rem] overflow-hidden relative p-8 md:p-12 z-10">
+    <div id="referral-card" class="max-w-2xl w-full golden-card rounded-[4rem] overflow-hidden relative p-8 md:p-12 z-10 mx-auto">
         
         <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-6">
-            <img src="logo.png" alt="51Talk" class="h-20 md:h-24 w-auto object-contain" onerror="this.alt='51Talk Logo'">
+            <img src="logo.png" alt="51Talk" class="h-20 md:h-24 w-auto object-contain" crossorigin="anonymous">
             
             <div class="text-center md:text-left bg-white/70 px-6 py-3 rounded-2xl border border-white shadow-sm">
                 <p class="text-[10px] text-blue-900/60 font-black uppercase tracking-widest">المستشار التعليمي المعتمد</p>
@@ -59,70 +59,61 @@
         </div>
 
         <div class="text-center mb-8">
-            <h3 class="text-blue-800 font-bold mb-3 flex items-center justify-center gap-2">
-                <span class="h-px w-8 bg-blue-800/30"></span>
-                إهداء حصري وخاص من <span id="display-student" class="text-red-600 font-black">........</span>
-                <span class="h-px w-8 bg-blue-800/30"></span>
-            </h3>
+            <h3 class="text-blue-800 font-bold mb-3">إهداء حصري وخاص من <span id="display-student" class="text-red-600 font-black">........</span></h3>
             <h1 class="text-3xl md:text-5xl font-black text-blue-950 leading-tight mb-8">ابدأ تعلّم اللغة الانجليزية مع 51talk</h1>
             
             <div class="grid grid-cols-2 gap-4 mb-8">
-                <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm">
-                    <span class="text-2xl">🌍</span> <p class="text-blue-950 font-bold text-sm">منصة عالمية ومعلمين أجانب</p>
+                <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm text-right">
+                    <span class="text-2xl">🌍</span> <p class="text-blue-950 font-bold text-xs md:text-sm">منصة عالمية ومعلمين أجانب</p>
                 </div>
-                <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm">
-                    <span class="text-2xl">🎁</span> <p class="text-blue-950 font-bold text-sm">حصة تجريبية مجانية تماماً</p>
+                <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm text-right">
+                    <span class="text-2xl">🎁</span> <p class="text-blue-950 font-bold text-xs md:text-sm">حصة تجريبية مجانية تماماً</p>
                 </div>
-                <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm">
-                    <span class="text-2xl">🗣️</span> <p class="text-blue-950 font-bold text-sm">تركيز على التحدث بطلاقة</p>
+                <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm text-right">
+                    <span class="text-2xl">🗣️</span> <p class="text-blue-950 font-bold text-xs md:text-sm">تركيز على التحدث بطلاقة</p>
                 </div>
-                <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm">
-                    <span class="text-2xl">⏳</span> <p class="text-blue-950 font-bold text-sm">حصص فردية وأوقات مرنة</p>
+                <div class="flex items-center gap-3 bg-white/50 p-3 rounded-2xl border border-white/80 shadow-sm text-right">
+                    <span class="text-2xl">⏳</span> <p class="text-blue-950 font-bold text-xs md:text-sm">حصص فردية وأوقات مرنة</p>
                 </div>
             </div>
 
             <div class="bg-blue-950/10 rounded-[2.5rem] p-6 border border-blue-950/5 shadow-inner">
                 <p class="text-xs font-black text-blue-900/70 mb-4 tracking-tighter">حدد مسارك التعليمي المفضل:</p>
                 <div class="flex flex-wrap justify-center gap-3">
-                    <div class="course-badge px-5 py-3 rounded-full text-xs md:text-sm font-black text-blue-950 shadow-sm flex items-center gap-2">
-                        <span>💼</span> إنجليزية الأعمال
-                    </div>
-                    <div class="course-badge px-5 py-3 rounded-full text-xs md:text-sm font-black text-blue-950 shadow-sm flex items-center gap-2">
-                        <span>🌟</span> المسار الكلاسيكي
-                    </div>
-                    <div class="course-badge px-5 py-3 rounded-full text-xs md:text-sm font-black text-blue-950 shadow-sm flex items-center gap-2">
-                        <span>🎓</span> تحضير الايلتس
-                    </div>
+                    <div class="course-badge px-4 py-2 rounded-full text-[10px] md:text-xs font-black text-blue-950 shadow-sm">💼 إنجليزية الأعمال</div>
+                    <div class="course-badge px-4 py-2 rounded-full text-[10px] md:text-xs font-black text-blue-950 shadow-sm">🌟 المسار الكلاسيكي</div>
+                    <div class="course-badge px-4 py-2 rounded-full text-[10px] md:text-xs font-black text-blue-950 shadow-sm">🎓 تحضير الايلتس</div>
                 </div>
             </div>
         </div>
 
         <div class="flex flex-col items-center border-t border-blue-900/10 pt-8">
-            <div class="bg-white p-4 rounded-[2.5rem] shadow-2xl mb-4 border-[6px] border-blue-900/10">
+            <div class="bg-white p-4 rounded-[2rem] shadow-2xl mb-4 border-[6px] border-blue-900/10">
                 <div id="qrcode"></div>
             </div>
-            
-            <p class="text-blue-950 font-black mb-3 text-lg">امسح الكود للحجز المباشر</p>
-            
+            <p class="text-blue-950 font-black mb-3">امسح الكود للحجز المباشر</p>
             <div class="flex items-center gap-3 mb-8 bg-white/90 px-6 py-2 rounded-full border border-green-200 shadow-md">
                 <span class="text-green-600 text-xl">💬</span>
                 <span id="display-phone" class="text-green-700 font-black text-xl">+962 77 555 2764</span>
             </div>
-
             <div class="flex items-center gap-12 bg-white/60 px-12 py-5 rounded-[2.5rem] border border-white/50 shadow-sm">
-                <img src="tabby.png" alt="Tabby" class="h-8 w-auto grayscale-[0.5] hover:grayscale-0">
+                <img src="tabby.png" alt="Tabby" class="h-8 w-auto" crossorigin="anonymous">
                 <div class="w-px h-10 bg-blue-900/10"></div>
-                <img src="tamara.png" alt="Tamara" class="h-8 w-auto grayscale-[0.5] hover:grayscale-0">
+                <img src="tamara.png" alt="Tamara" class="h-8 w-auto" crossorigin="anonymous">
             </div>
         </div>
     </div>
 
-    <div class="mt-12 bg-white/80 backdrop-blur-md p-8 rounded-[2.5rem] shadow-2xl border border-white w-full max-w-md no-print">
-        <h3 class="font-black text-blue-900 mb-6 text-center border-b pb-4">تخصيص بيانات الهدية</h3>
+    <div class="mt-8 bg-white/80 backdrop-blur-md p-8 rounded-[2.5rem] shadow-2xl border border-white w-full max-w-md no-print mx-auto">
+        <h3 class="font-black text-blue-900 mb-6 text-center border-b pb-4">تخصيص البيانات</h3>
         <div class="space-y-4">
-            <input type="text" id="input-student" placeholder="اسم صديق الطالب" class="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 transition-all font-bold" oninput="updateCard()">
-            <input type="text" id="input-consultant" placeholder="اسمك كمستشار" class="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 transition-all font-bold" oninput="updateCard()">
-            <input type="text" id="input-phone" placeholder="رقم الواتساب" class="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 transition-all font-bold" oninput="updateCard()">
+            <input type="text" id="input-student" placeholder="اسم صديق الطالب" class="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 font-bold" oninput="updateCard()">
+            <input type="text" id="input-consultant" placeholder="اسمك كمستشار" class="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 font-bold" oninput="updateCard()">
+            <input type="text" id="input-phone" placeholder="962775552764" class="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-blue-500 font-bold" oninput="updateCard()">
+            
+            <button onclick="saveCardAsImage()" class="w-full bg-blue-950 text-white font-black py-5 rounded-2xl shadow-xl hover:bg-blue-900 transition-all flex items-center justify-center gap-3">
+                <span>📸</span> حفظ كصورة بجودة عالية
+            </button>
         </div>
     </div>
 
@@ -148,6 +139,28 @@
             const cleanPhone = phone.replace(/\s/g, '').replace('+', '');
             qrcode.clear();
             qrcode.makeCode("https://wa.me/" + cleanPhone);
+        }
+
+        // وظيفة الحفظ كصورة
+        function saveCardAsImage() {
+            const card = document.getElementById('referral-card');
+            const btn = event.currentTarget;
+            btn.innerText = "جاري المعالجة...";
+            btn.disabled = true;
+
+            html2canvas(card, {
+                scale: 3, // جودة عالية جداً
+                useCORS: true, // للسماح بتحميل الصور الخارجية
+                backgroundColor: null, // خلفية شفافة حول البطاقة
+                borderRadius: 40
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Gift-Card-51Talk-${new Date().getTime()}.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                btn.innerText = "📸 حفظ كصورة بجودة عالية";
+                btn.disabled = false;
+            });
         }
     </script>
 </body>
