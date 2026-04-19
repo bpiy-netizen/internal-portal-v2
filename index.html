@@ -3,125 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>51Talk Professional Card</title>
+    <title>51Talk - Working QR Code</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background: #f3f4f6; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        
-        /* تصميم البوستر */
         #referral-card {
             position: relative;
-            width: 500px;
-            height: 700px;
-            border-radius: 3rem;
+            width: 450px;
+            height: 630px;
+            border-radius: 2.5rem;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             background: #fff;
         }
-
-        .card-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover;
-            z-index: 1;
-        }
-
-        .content-layer {
-            position: relative;
-            z-index: 10;
-            height: 100%;
-            padding: 2.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            text-align: center;
-            color: white;
-        }
-
-        .glass-item { background: rgba(255, 255, 255, 0.95); border-radius: 1rem; padding: 8px; color: #1e3a8a; }
-        .text-glow { text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
-
-        #qrcode img { margin: 0 auto; border: 8px solid white; border-radius: 1.5rem; }
-
-        /* إخفاء أدوات التحكم عند الطباعة */
-        @media print {
-            body { background: white; padding: 0; }
-            .no-print { display: none; }
-            #referral-card { box-shadow: none; border-radius: 0; }
-        }
+        .card-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+        .content-layer { position: relative; z-index: 10; height: 100%; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: center; color: white; }
+        .glass-item { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 6px; color: #1e3a8a; font-weight: bold; font-size: 12px; }
+        #qrcode { background: white; padding: 10px; border-radius: 1.2rem; display: inline-block; }
+        #qrcode img { margin: 0 auto; }
+        @media print { .no-print { display: none; } #referral-card { box-shadow: none; } }
     </style>
 </head>
 <body>
 
     <div id="referral-card">
         <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/my-bg.JPG" class="card-bg">
-        
         <div class="content-layer">
             <div class="flex justify-between items-center">
-                <div class="bg-white p-2 rounded-xl shadow-md h-12 w-24 flex items-center justify-center">
-                    <span class="text-blue-600 font-black text-sm">51Talk</span>
-                </div>
-                <div class="bg-white px-4 py-1 rounded-lg shadow-md border-b-4 border-yellow-400">
-                    <span id="display-consultant" class="text-blue-900 font-black">مصطفى</span>
-                </div>
+                <div class="bg-white px-3 py-1 rounded-lg shadow-sm text-blue-600 font-black">51Talk</div>
+                <div class="bg-white px-4 py-1 rounded-lg shadow-sm border-b-4 border-yellow-400 text-blue-900 font-black" id="display-consultant">مصطفى</div>
             </div>
 
-            <div>
-                <h3 class="text-xl font-bold text-glow mb-1">إهداء حصري وخاص من <span id="display-student" class="text-yellow-400 font-black text-2xl">........</span></h3>
-                <h1 class="text-3xl font-black leading-tight text-glow">ابدأ تعلّم اللغة الانجليزية مع 51talk</h1>
+            <div class="mt-4">
+                <h3 class="text-lg font-bold">إهداء خاص من <span id="display-student" class="text-yellow-400 font-black">........</span></h3>
+                <h1 class="text-2xl font-black leading-tight">تعلّم الانجليزية مع 51talk</h1>
             </div>
 
-            <div class="grid grid-cols-2 gap-2">
-                <div class="glass-item flex items-center justify-center gap-1">
-                    <span class="text-[10px] font-black">🌍 منصة عالمية</span>
-                </div>
-                <div class="glass-item flex items-center justify-center gap-1">
-                    <span class="text-[10px] font-black">🎁 حصة مجانية</span>
-                </div>
+            <div class="grid grid-cols-2 gap-2 my-2">
+                <div class="glass-item">🌍 منصة عالمية</div>
+                <div class="glass-item">🎁 حصة مجانية</div>
             </div>
 
             <div class="mb-4">
-                <div id="qrcode" class="inline-block"></div>
-                <p class="mt-3 font-black text-lg italic text-glow">امسح الكود للحجز المباشر</p>
-                <div class="bg-white text-green-700 px-6 py-2 rounded-full font-black text-xl shadow-lg mt-2 inline-block">
-                    <span id="display-phone">962775552764</span>
-                </div>
+                <div id="qrcode"></div>
+                <p class="mt-2 font-black text-sm italic">امسح للكود للحجز</p>
+                <div class="bg-white text-green-700 px-6 py-1 rounded-full font-black text-lg shadow-md mt-2 inline-block" id="display-phone">962775552764</div>
             </div>
         </div>
     </div>
 
-    <div class="no-print mt-8 bg-white p-6 rounded-3xl shadow-xl w-full max-w-md">
-        <h3 class="text-center font-bold mb-4 text-gray-700">تعديل بيانات البوستر</h3>
-        <div class="space-y-3">
-            <input type="text" id="input-student" placeholder="اسم الطالب" class="w-full border p-3 rounded-xl text-right" oninput="update()">
-            <input type="text" id="input-consultant" placeholder="اسم المستشار" class="w-full border p-3 rounded-xl text-right" oninput="update()">
-            <input type="text" id="input-phone" placeholder="رقم الواتساب" class="w-full border p-3 rounded-xl text-right" oninput="update()">
-        </div>
-        <button onclick="window.print()" class="w-full mt-4 bg-green-600 text-white font-bold py-4 rounded-xl shadow-lg">
-             طباعة أو حفظ كصورة (PDF) 🖨️
+    <div class="no-print mt-6 bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm">
+        <input type="text" id="input-student" placeholder="اسم الطالب" class="w-full border p-3 rounded-xl text-right mb-2" oninput="update()">
+        <input type="text" id="input-consultant" placeholder="اسم المستشار" class="w-full border p-3 rounded-xl text-right mb-2" oninput="update()">
+        <input type="text" id="input-phone" placeholder="962XXXXXXXX" class="w-full border p-3 rounded-xl text-right mb-4" oninput="update()">
+        
+        <button onclick="window.print()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg mb-2">
+            حفظ البوستر (Print to PDF)
         </button>
-        <p class="text-[10px] text-gray-400 mt-2 text-center">نصيحة: عند الطباعة اختر "حفظ بتنسيق PDF" للحصول على أعلى جودة للـ QR.</p>
     </div>
 
     <script>
-        let qrcode = new QRCode(document.getElementById("qrcode"), {
-            width: 180, height: 180, colorDark : "#1e3a8a", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 150,
+            height: 150,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.M
         });
 
         function update() {
-            const s = document.getElementById('input-student').value || "........";
-            const c = document.getElementById('input-consultant').value || "مصطفى";
-            const p = document.getElementById('input-phone').value || "962775552764";
+            const student = document.getElementById('input-student').value || "........";
+            const consultant = document.getElementById('input-consultant').value || "مصطفى";
+            const phone = document.getElementById('input-phone').value || "962775552764";
             
-            document.getElementById('display-student').innerText = s;
-            document.getElementById('display-consultant').innerText = c;
-            document.getElementById('display-phone').innerText = p;
+            document.getElementById('display-student').innerText = student;
+            document.getElementById('display-consultant').innerText = consultant;
+            document.getElementById('display-phone').innerText = phone;
+
+            // تنظيف الرقم من أي رموز
+            const cleanPhone = phone.replace(/\D/g, ''); 
+            
+            // تشفير الرسالة بشكل صحيح ليعمل الرابط
+            const message = encodeURIComponent(`مرحبا ${consultant}، أنا من طرف ${student} وأرغب في تجربة حصة مجانية`);
+            const whatsappUrl = `https://wa.me/${cleanPhone}?text=${message}`;
             
             qrcode.clear();
-            qrcode.makeCode(`https://wa.me/${p.replace(/\+/g,'')}?text=مرحبا ${c}، انا من طرف ${s}`);
+            qrcode.makeCode(whatsappUrl);
         }
+        
+        // تشغيل أولي
         update();
     </script>
 </body>
