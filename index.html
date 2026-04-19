@@ -1,178 +1,100 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>51Talk - Fixed Image Export</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Cairo', sans-serif; background: #f3f4f6; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        
-        #referral-card-container {
-            position: relative;
-            width: 450px;
-            height: 630px;
-            border-radius: 2.5rem;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            background: #fff;
-        }
-
-        .card-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover;
-            z-index: 1;
-        }
-
-        .content-layer {
-            position: relative;
-            z-index: 10;
-            height: 100%;
-            padding: 2.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            text-align: center;
-        }
-        
-        .glass-item { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 6px; color: #1e3a8a; font-weight: bold; font-size: 12px; }
-        .text-glow { text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-
-        #qrcode-placeholder { background: white; padding: 10px; border-radius: 1.2rem; display: inline-block; width: 150px; height: 150px; margin: 0 auto;}
-
-        /* ستايل للتحكم بظهور القماش المحول */
-        #rendered-image-canvas {
-            border-radius: 2.5rem;
-            cursor: pointer;
-            display: none; /* مخفي مبدئياً */
-        }
-
-        @media print { .no-print { display: none; } #referral-card-container { box-shadow: none; } }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>51Talk - Working QR Code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #f3f4f6; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        #referral-card {
+            position: relative;
+            width: 450px;
+            height: 630px;
+            border-radius: 2.5rem;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            background: #fff;
+        }
+        .card-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+        .content-layer { position: relative; z-index: 10; height: 100%; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: center; color: white; }
+        .glass-item { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 6px; color: #1e3a8a; font-weight: bold; font-size: 12px; }
+        #qrcode { background: white; padding: 10px; border-radius: 1.2rem; display: inline-block; }
+        #qrcode img { margin: 0 auto; }
+        @media print { .no-print { display: none; } #referral-card { box-shadow: none; } }
+    </style>
 </head>
-<body class="p-4">
+<body>
 
-        <div id="referral-card-container">
-        <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/my-bg.JPG" class="card-bg" crossorigin="anonymous">
-        
-        <div class="content-layer">
-            <div class="flex justify-between items-center">
-                <div class="bg-white px-3 py-1 rounded-lg shadow-sm text-blue-600 font-black">51Talk</div>
-                <div class="bg-white px-4 py-1 rounded-lg shadow-sm border-b-4 border-yellow-400 text-blue-900 font-black" id="display-consultant">مصطفى</div>
-            </div>
+    <div id="referral-card">
+        <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/my-bg.JPG" class="card-bg">
+        <div class="content-layer">
+            <div class="flex justify-between items-center">
+                <div class="bg-white px-3 py-1 rounded-lg shadow-sm text-blue-600 font-black">51Talk</div>
+                <div class="bg-white px-4 py-1 rounded-lg shadow-sm border-b-4 border-yellow-400 text-blue-900 font-black" id="display-consultant">مصطفى</div>
+            </div>
 
-            <div class="mt-4">
-                <h3 class="text-white font-bold text-glow">إهداء خاص من <span id="display-student" class="text-yellow-400 font-black text-xl">بندر</span></h3>
-                <h1 class="text-2xl font-black leading-tight text-white text-glow">تعلّم الانجليزية مع 51talk</h1>
-            </div>
+            <div class="mt-4">
+                <h3 class="text-lg font-bold">إهداء خاص من <span id="display-student" class="text-yellow-400 font-black">........</span></h3>
+                <h1 class="text-2xl font-black leading-tight">تعلّم الانجليزية مع 51talk</h1>
+            </div>
 
-            <div class="grid grid-cols-2 gap-2 my-2">
-                <div class="glass-item">🌍 منصة عالمية</div>
-                <div class="glass-item">🎁 حصة مجانية</div>
-            </div>
+            <div class="grid grid-cols-2 gap-2 my-2">
+                <div class="glass-item">🌍 منصة عالمية</div>
+                <div class="glass-item">🎁 حصة مجانية</div>
+            </div>
 
-            <div class="mb-4">
-                                <div id="qrcode-placeholder"></div>
-                <p class="mt-2 text-white font-black text-sm italic text-glow">امسح الكود للحجز المباشر</p>
-                <div class="bg-white text-green-700 px-6 py-1 rounded-full font-black text-lg shadow-md mt-2 inline-block" id="display-phone">962775552764</div>
-            </div>
-        </div>
-    </div>
+            <div class="mb-4">
+                <div id="qrcode"></div>
+                <p class="mt-2 font-black text-sm italic">امسح للكود للحجز</p>
+                <div class="bg-white text-green-700 px-6 py-1 rounded-full font-black text-lg shadow-md mt-2 inline-block" id="display-phone">962775552764</div>
+            </div>
+        </div>
+    </div>
 
-        <div class="no-print mt-6 bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm text-center">
-        <p id="status-text" class="text-blue-600 font-bold mb-4">جاري تحميل البوستر... يرجى الانتظار ⏳</p>
-        <button id="download-btn" onclick="downloadPosterImage()" class="w-full bg-green-600 text-white font-black py-4 rounded-xl shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2 opacity-50 cursor-not-allowed" disabled>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            <span>حفظ كصورة PNG صافية 🖼️</span>
-        </button>
-        <p class="text-[10px] text-gray-400 mt-2">نصيحة: إذا لم يعمل الزر على موبايلك، يمكنك أخذ سكرين شوت للبوستر، فقد قمنا بتحسين دقة الكود.</p>
-    </div>
+    <div class="no-print mt-6 bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm">
+        <input type="text" id="input-student" placeholder="اسم الطالب" class="w-full border p-3 rounded-xl text-right mb-2" oninput="update()">
+        <input type="text" id="input-consultant" placeholder="اسم المستشار" class="w-full border p-3 rounded-xl text-right mb-2" oninput="update()">
+        <input type="text" id="input-phone" placeholder="962XXXXXXXX" class="w-full border p-3 rounded-xl text-right mb-4" oninput="update()">
+        
+        <button onclick="window.print()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg mb-2">
+            حفظ البوستر (Print to PDF)
+        </button>
+    </div>
 
-    <script>
-        // توليد QR بدقة متوسطة لضمان الوضوح والسرعة
-        var qrcode = new QRCode(document.getElementById("qrcode-placeholder"), {
-            width: 150,
-            height: 150,
-            colorDark : "#172554", // لون كحلي غامق
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.M
-        });
+    <script>
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 150,
+            height: 150,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.M
+        });
 
-        function updateQRCode() {
-            const student = document.getElementById('display-student').innerText;
-            const consultant = document.getElementById('display-consultant').innerText;
-            const phone = document.getElementById('display-phone').innerText;
-            
-            const cleanPhone = phone.replace(/\D/g, ''); 
-            const message = encodeURIComponent(`مرحبا ${consultant}، أنا من طرف ${student} وأرغب في تجربة حصة مجانية`);
-            const whatsappUrl = `https://wa.me/${cleanPhone}?text=${message}`;
-            
-            qrcode.clear();
-            qrcode.makeCode(whatsappUrl);
-        }
+        function update() {
+            const student = document.getElementById('input-student').value || "........";
+            const consultant = document.getElementById('input-consultant').value || "مصطفى";
+            const phone = document.getElementById('input-phone').value || "962775552764";
+            
+            document.getElementById('display-student').innerText = student;
+            document.getElementById('display-consultant').innerText = consultant;
+            document.getElementById('display-phone').innerText = phone;
 
-        // الوظيفة الذكية لتحويل البوستر لصورة واحدة عند التحميل
-        function renderPosterToImage() {
-            const container = document.getElementById('referral-card-container');
-            const status = document.getElementById('status-text');
-            const btn = document.getElementById('download-btn');
-            
-            updateQRCode(); // تأكيد تحديث الـ QR
-
-            // تحميل مكتبة التحويل برمجياً عند الحاجة
-            const script = document.createElement('script');
-            script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-            document.body.appendChild(script);
-
-            script.onload = function() {
-                html2canvas(container, {
-                    scale: 3, // دقة عالية جداً
-                    useCORS: true, // مهم جداً لسحب الصور من GitHub
-                    borderRadius: 56, // الحفاظ على الحواف المنحنية
-                    backgroundColor: null,
-                    windowWidth: container.scrollWidth,
-                    windowHeight: container.scrollHeight
-                }).then(canvas => {
-                    // 1. إخفاء البوستر HTML
-                    container.style.display = "none";
-                    
-                    // 2. تنسيق وعرض القماش (الصورة النهائية)
-                    canvas.id = "rendered-image-canvas";
-                    canvas.style.maxWidth = "100%";
-                    canvas.style.height = "auto";
-                    canvas.style.display = "block";
-                    document.body.insertBefore(canvas, container.nextSibling);
-
-                    // 3. تحديث حالة الزر
-                    status.innerText = "البوستر جاهز! اضغط الزر للحفظ 🖼️";
-                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    btn.removeAttribute('disabled');
-                });
-            };
-        }
-
-        // وظيفة الحفظ المباشر
-        function downloadPosterImage() {
-            const canvas = document.getElementById('rendered-image-canvas');
-            const student = document.getElementById('display-student').innerText;
-            
-            if (canvas) {
-                const link = document.createElement('a');
-                link.download = `51Talk-Poster-${student}.png`;
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-            }
-        }
-        
-        // تشغيل التحويل تلقائياً بعد تحميل الصفحة بـ 3 ثواني لضمان تحميل الخلفية
-        window.onload = function() {
-            setTimeout(renderPosterToImage, 3000);
-        };
-    </script>
+            // تنظيف الرقم من أي رموز
+            const cleanPhone = phone.replace(/\D/g, ''); 
+            
+            // تشفير الرسالة بشكل صحيح ليعمل الرابط
+            const message = encodeURIComponent(`مرحبا ${consultant}، أنا من طرف ${student} وأرغب في تجربة حصة مجانية`);
+            const whatsappUrl = `https://wa.me/${cleanPhone}?text=${message}`;
+            
+            qrcode.clear();
+            qrcode.makeCode(whatsappUrl);
+        }
+        
+        // تشغيل أولي
+        update();
+    </script>
 </body>
 </html>
