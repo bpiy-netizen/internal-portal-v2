@@ -1,118 +1,51 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>51Talk - Final Professional Card</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Cairo', sans-serif; background: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+    // 1. تحسين جودة الـ QR Code
+    let qrcode = new QRCode(document.getElementById("qrcode"), {
+        width: 400, // رفعنا العرض ليعطي دقة أعلى عند التكبير
+        height: 400, // رفعنا الطول
+        colorDark : "#172554",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H // أعلى مستوى لتصحيح الخطأ لضمان المسح
+    });
+
+    // إضافة ستايل لجعل الكود الكبير يناسب المربع الصغير دون فقدان الجودة
+    document.querySelector('#qrcode img').style.width = "160px";
+    document.querySelector('#qrcode canvas').style.width = "160px";
+
+    function updateCard() {
+        const student = document.getElementById('input-student').value || "........";
+        const consultant = document.getElementById('input-consultant').value || "البندري";
+        const phone = document.getElementById('input-phone').value || "962775552764";
         
-        #referral-card {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 3.5rem;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
-        }
-
-        .card-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover;
-            z-index: 1;
-        }
-
-        .content-layer { position: relative; z-index: 10; padding: 2.5rem 1.5rem; text-align: center; }
+        document.getElementById('display-student').innerText = student;
+        document.getElementById('display-consultant').innerText = consultant;
+        document.getElementById('display-phone').innerText = phone.startsWith('+') ? phone : '+' + phone;
         
-        .glass-item { background: rgba(255, 255, 255, 0.95); border-radius: 1.5rem; padding: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .text-glow { text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+        const cleanPhone = phone.replace(/\s/g, '').replace('+', '');
+        qrcode.clear();
+        qrcode.makeCode(`https://wa.me/${cleanPhone}?text=${encodeURIComponent('مرحبا ' + consultant + '، انا من طرف ' + student + '، أرغب في حجز حصة تجريبية')}`);
+    }
 
-        @media print { .no-print { display: none; } }
-    </style>
-</head>
-<body class="p-4">
-
-    <div id="referral-card">
-        <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/my-bg.JPG" class="card-bg" crossorigin="anonymous">
-        
-        <div class="content-layer">
-            <div class="flex items-center justify-between mb-6">
-                <img src="logo.png" alt="51Talk" class="h-24 w-auto object-contain" crossorigin="anonymous">
-                <div class="bg-white px-5 py-2 rounded-xl shadow-md">
-                    <h2 id="display-consultant" class="text-lg font-black text-blue-900">البندري</h2>
-                </div>
-            </div>
-
-            <div class="mb-6">
-                <h3 class="text-white font-bold mb-2 text-glow">إهداء حصري وخاص من <span id="display-student" class="text-yellow-400 font-black">........</span></h3>
-                <h1 class="text-3xl font-black text-white leading-tight mb-8 text-glow">ابدأ تعلّم اللغة الانجليزية مع 51talk</h1>
-                
-                <div class="grid grid-cols-2 gap-3 mb-6">
-                    <div class="flex items-center gap-2 glass-item">
-                        <span class="text-xl">🌍</span> <p class="text-blue-950 font-bold text-[10px]">منصة عالمية ومعلمين أجانب</p>
-                    </div>
-                    <div class="flex items-center gap-2 glass-item">
-                        <span class="text-xl">🎁</span> <p class="text-blue-950 font-bold text-[10px]">حصة تقييمية مجانية</p>
-                    </div>
-                    <div class="flex items-center gap-2 glass-item">
-                        <span class="text-xl">🗣️</span> <p class="text-blue-950 font-bold text-[10px]">التركيز على التحدث بطلاقة</p>
-                    </div>
-                    <div class="flex items-center gap-2 glass-item">
-                        <span class="text-xl">⏳</span> <p class="text-blue-950 font-bold text-[10px]">حصص فردية وأوقات مرنة</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <div class="bg-white p-3 rounded-3xl inline-block shadow-xl mb-4">
-                    <div id="qrcode"></div>
-                </div>
-                <p class="text-white font-black mb-4 text-lg italic text-glow">امسح الكود للحجز المباشر</p>
-                
-                <div class="inline-flex items-center gap-3 bg-white px-8 py-3 rounded-full shadow-lg mb-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#15803d">
-                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.886.002-5.462-4.415-9.89-9.881-9.892-2.652 0-5.147 1.035-7.022 2.911-1.875 1.876-2.905 4.375-2.907 7.028 0 2.139.574 3.997 1.765 5.512l-1.019 3.737 3.793-.993zm11.366-4.6c-.255-.127-1.505-.742-1.74-.827-.235-.085-.406-.127-.577.127-.171.254-.663.827-.813.997-.15.17-.3.19-.555.063-.255-.127-1.077-.397-2.051-1.267-.758-.677-1.269-1.513-1.418-1.768-.149-.255-.016-.393.111-.52.114-.114.255-.3.383-.45.127-.15.171-.254.255-.423.085-.17.043-.318-.021-.445-.064-.127-.577-1.391-.79-1.906-.208-.5-.427-.43-.577-.438-.148-.008-.318-.008-.488-.008-.171 0-.448.064-.684.318-.235.254-.897.876-.897 2.138 0 1.262.918 2.481 1.046 2.651.127.17 1.808 2.761 4.379 3.869.612.264 1.09.421 1.462.539.614.195 1.173.167 1.614.101.491-.073 1.505-.615 1.719-1.209.213-.594.213-1.102.15-1.208-.064-.107-.235-.17-.49-.297z"/>
-                    </svg>
-                    <span id="display-phone" class="text-green-700 font-black text-2xl tracking-tighter">+962 77 555 2764</span>
-                </div>
-
-                <div class="flex items-center justify-center gap-8 bg-white/20 backdrop-blur-md py-4 rounded-3xl border border-white/30">
-                    <img src="tabby.png" class="h-6 w-auto" crossorigin="anonymous">
-                    <img src="tamara.png" class="h-6 w-auto" crossorigin="anonymous">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-8 w-full max-w-md bg-white p-6 rounded-3xl shadow-xl no-print mx-auto">
-        <div class="space-y-4">
-            <input type="text" id="input-student" placeholder="اسم صديق الطالب" class="w-full bg-gray-50 border p-4 rounded-2xl text-right font-bold" oninput="updateCard()">
-            <input type="text" id="input-consultant" placeholder="اسم المستشار" class="w-full bg-gray-50 border p-4 rounded-2xl text-right font-bold" oninput="updateCard()">
-            <input type="text" id="input-phone" placeholder="962775552764" class="w-full bg-gray-50 border p-4 rounded-2xl text-right font-bold" oninput="updateCard()">
-        </div>
-    </div>
-
-    <script>
-        let qrcode = new QRCode(document.getElementById("qrcode"), {
-            width: 160, height: 160, colorDark : "#172554", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H
+    // 2. وظيفة تحميل البوستر كصورة عالية الجودة (بدل السكرين شوت)
+    function downloadPoster() {
+        const card = document.getElementById('referral-card');
+        html2canvas(card, {
+            scale: 3, // يضاعف الجودة 3 مرات (Ultra HD)
+            useCORS: true, // للسماح بتحميل الصور الخارجية مثل الخلفية
+            borderRadius: 56
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `Referral-Card-${document.getElementById('input-student').value}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
         });
+    }
 
-        function updateCard() {
-            const student = document.getElementById('input-student').value || "........";
-            const consultant = document.getElementById('input-consultant').value || "البندري";
-            const phone = document.getElementById('input-phone').value || "962775552764";
-            document.getElementById('display-student').innerText = student;
-            document.getElementById('display-consultant').innerText = consultant;
-            document.getElementById('display-phone').innerText = phone.startsWith('+') ? phone : '+' + phone;
-            const cleanPhone = phone.replace(/\s/g, '').replace('+', '');
-            qrcode.clear();
-            qrcode.makeCode(`https://wa.me/${cleanPhone}?text=${encodeURIComponent('مرحبا ' + consultant + '، انا من طرف ' + student + '، أرغب في حجز حصة تجريبية')}`);
-        }
-        updateCard();
-    </script>
-</body>
-</html>
+    updateCard();
+</script>
+
+<button onclick="downloadPoster()" class="w-full mt-4 bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-lg hover:bg-blue-700 transition-all">
+    حفظ البوستر بجودة عالية ✨
+</button>
