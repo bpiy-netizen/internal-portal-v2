@@ -3,74 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>51Talk - Working QR Code</title>
+    <title>51Talk - Poster to Image</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background: #f3f4f6; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        #referral-card {
+        
+        #poster-container {
             position: relative;
             width: 450px;
             height: 630px;
             border-radius: 2.5rem;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             background: #fff;
         }
-        .card-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
-        .content-layer { position: relative; z-index: 10; height: 100%; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: center; color: white; }
-        .glass-item { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 6px; color: #1e3a8a; font-weight: bold; font-size: 12px; }
-        #qrcode { background: white; padding: 10px; border-radius: 1.2rem; display: inline-block; }
-        #qrcode img { margin: 0 auto; }
-        @media print { .no-print { display: none; } #referral-card { box-shadow: none; } }
+
+        .card-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .glass-item { background: rgba(255, 255, 255, 0.95); border-radius: 1rem; padding: 6px; color: #1e3a8a; font-weight: bold; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .text-glow { text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        
+        #qrcode { 
+            background: white; 
+            padding: 12px; 
+            border-radius: 1.5rem; 
+            display: inline-block;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
 
-    <div id="referral-card">
-        <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/my-bg.JPG" class="card-bg">
+    <div id="poster-container">
+        <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/my-bg.JPG" class="card-bg" crossorigin="anonymous">
+        
         <div class="content-layer">
             <div class="flex justify-between items-center">
                 <div class="bg-white px-3 py-1 rounded-lg shadow-sm text-blue-600 font-black">51Talk</div>
-                <div class="bg-white px-4 py-1 rounded-lg shadow-sm border-b-4 border-yellow-400 text-blue-900 font-black" id="display-consultant">مصطفى</div>
+                <div id="display-consultant" class="bg-white px-4 py-1 rounded-lg shadow-sm border-b-4 border-yellow-400 text-blue-900 font-black">مصطفى</div>
             </div>
 
-            <div class="mt-4">
-                <h3 class="text-lg font-bold">إهداء خاص من <span id="display-student" class="text-yellow-400 font-black">........</span></h3>
-                <h1 class="text-2xl font-black leading-tight">تعلّم الانجليزية مع 51talk</h1>
+            <div class="text-white">
+                <h3 class="text-lg font-bold text-glow">إهداء خاص من <span id="display-student" class="text-yellow-400 font-black">........</span></h3>
+                <h1 class="text-2xl font-black leading-tight text-glow">تعلّم الانجليزية مع 51talk</h1>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 my-2">
+            <div class="grid grid-cols-2 gap-2">
                 <div class="glass-item">🌍 منصة عالمية</div>
                 <div class="glass-item">🎁 حصة مجانية</div>
             </div>
 
             <div class="mb-4">
                 <div id="qrcode"></div>
-                <p class="mt-2 font-black text-sm italic">امسح للكود للحجز</p>
+                <p class="mt-2 text-white font-black text-sm italic text-glow">امسح الكود للحجز المباشر</p>
                 <div class="bg-white text-green-700 px-6 py-1 rounded-full font-black text-lg shadow-md mt-2 inline-block" id="display-phone">962775552764</div>
             </div>
         </div>
     </div>
 
-    <div class="no-print mt-6 bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm">
-        <input type="text" id="input-student" placeholder="اسم الطالب" class="w-full border p-3 rounded-xl text-right mb-2" oninput="update()">
-        <input type="text" id="input-consultant" placeholder="اسم المستشار" class="w-full border p-3 rounded-xl text-right mb-2" oninput="update()">
-        <input type="text" id="input-phone" placeholder="962XXXXXXXX" class="w-full border p-3 rounded-xl text-right mb-4" oninput="update()">
+    <div class="mt-6 bg-white p-6 rounded-3xl shadow-xl w-full max-w-sm no-print">
+        <input type="text" id="input-student" placeholder="اسم الطالب" class="w-full border p-3 rounded-xl text-right mb-2 outline-none focus:border-blue-500" oninput="update()">
+        <input type="text" id="input-consultant" placeholder="اسم المستشار" class="w-full border p-3 rounded-xl text-right mb-2 outline-none focus:border-blue-500" oninput="update()">
+        <input type="text" id="input-phone" placeholder="رقم الواتساب (962...)" class="w-full border p-3 rounded-xl text-right mb-4 outline-none focus:border-blue-500" oninput="update()">
         
-        <button onclick="window.print()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg mb-2">
-            حفظ البوستر (Print to PDF)
+        <button onclick="saveAsImage()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-blue-700 transition-all">
+            <span>حفظ كصورة PNG 🖼️</span>
         </button>
     </div>
 
     <script>
         var qrcode = new QRCode(document.getElementById("qrcode"), {
-            width: 150,
-            height: 150,
+            width: 160,
+            height: 160,
             colorDark : "#000000",
             colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.M
+            correctLevel : QRCode.CorrectLevel.H
         });
 
         function update() {
@@ -82,18 +107,33 @@
             document.getElementById('display-consultant').innerText = consultant;
             document.getElementById('display-phone').innerText = phone;
 
-            // تنظيف الرقم من أي رموز
             const cleanPhone = phone.replace(/\D/g, ''); 
-            
-            // تشفير الرسالة بشكل صحيح ليعمل الرابط
-            const message = encodeURIComponent(`مرحبا ${consultant}، أنا من طرف ${student} وأرغب في تجربة حصة مجانية`);
-            const whatsappUrl = `https://wa.me/${cleanPhone}?text=${message}`;
+            const message = encodeURIComponent(`مرحبا ${consultant}، أنا من طرف ${student} وأرغب في حصة مجانية`);
             
             qrcode.clear();
-            qrcode.makeCode(whatsappUrl);
+            qrcode.makeCode(`https://wa.me/${cleanPhone}?text=${message}`);
+        }
+
+        function saveAsImage() {
+            const container = document.getElementById('poster-container');
+            const btn = event.currentTarget;
+            btn.innerText = "جاري المعالجة... ⏳";
+
+            html2canvas(container, {
+                scale: 3, // دقة عالية جداً
+                useCORS: true, // مهم جداً لسحب الصور من GitHub
+                allowTaint: true,
+                backgroundColor: null,
+                logging: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `51Talk-${document.getElementById('input-student').value || 'Poster'}.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                btn.innerText = "حفظ كصورة PNG 🖼️";
+            });
         }
         
-        // تشغيل أولي
         update();
     </script>
 </body>
