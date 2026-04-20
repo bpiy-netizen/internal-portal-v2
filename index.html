@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>51Talk - Poster</title>
+    <title>51Talk Poster - Fixed</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -12,93 +12,75 @@
         #referral-card {
             position: relative;
             width: 450px;
-            height: 630px;
+            height: 650px; /* زيادة الطول قليلاً لراحة العناصر */
             border-radius: 2.5rem;
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             background: #fff;
         }
         .card-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
-        .content-layer { position: relative; z-index: 10; height: 100%; padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; text-align: center; color: white; }
-        .glass-item { background: rgba(255, 255, 255, 0.95); border-radius: 1rem; padding: 8px 12px; color: #1e3a8a; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .content-layer { position: relative; z-index: 10; height: 100%; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: center; color: white; }
         
-        /* التعديل 2: تصغير ونقل شعار المنصة على اليسار بالزاوية */
-        #platform-logo-container {
-            position: absolute; /* تحديد موقع مطلق */
-            top: 2.5rem; /* نفس المسافة العلوية لاسم المستشار */
-            left: 2.5rem; /* في الزاوية اليسرى */
-            background: white;
-            padding: 8px;
-            border-radius: 1.2rem; /* زوايا منحنية أنيقة */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            display: inline-block;
-            z-index: 20; /* فوق كل شيء */
-        }
-        .platform-logo-img {
-            height: 45px; /* تم تصغيره بشكل ملحوظ */
-            width: auto;
-        }
+        /* المستشار يمين والشعار يسار */
+        .top-header { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; margin-bottom: 10px; }
+        .consultant-tag { background: white; padding: 5px 15px; border-radius: 12px; color: #1e3a8a; font-weight: 900; border-bottom: 4px solid #facc15; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .mini-logo-box { background: white; padding: 6px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .mini-logo-box img { height: 35px; width: auto; }
 
-        #qrcode { background: white; padding: 10px; border-radius: 1.2rem; display: inline-block; margin: 0 auto; }
-        #qrcode img { margin: 0 auto; }
+        .glass-item { background: rgba(255, 255, 255, 0.95); border-radius: 1rem; padding: 8px; color: #1e3a8a; font-weight: bold; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        #qrcode { background: white; padding: 10px; border-radius: 1.2rem; display: inline-block; margin: 10px auto; }
 
-        /* تنسيق زر رقم الهاتف */
+        /* زر الواتساب - رفع الطبقة ليكون فوق كل شيء */
+        .phone-container { position: relative; z-index: 30; margin-bottom: 60px; } /* هام: الهامش السفلي لمنع التداخل */
         .phone-box-btn {
-            background: #25d366; /* لون واتساب الرسمي */
+            background: #25d366;
             color: white;
-            padding: 10px 24px;
+            padding: 12px 25px;
             border-radius: 2rem;
             font-weight: 900;
             font-size: 22px;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin-top: 10px;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .whatsapp-icon-svg { height: 24px; width: auto; }
 
-        /* التعديل 3: توسيع وتنسيق شعارات تابي وتمارا لتظهر بشكل كامل */
-        .bottom-strip {
+        /* شريط تابي وتمارا - في الخلفية تماماً في الأسفل */
+        .footer-strip {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.2); /* شفافية بسيطة */
-            backdrop-filter: blur(10px);
-            padding: 15px 10px; /* توسيع الشريط العمودي */
+            height: 55px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
-            gap: 30px;
             align-items: center;
-            z-index: 15;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            gap: 25px;
+            z-index: 5; /* طبقة أقل من زر الواتساب */
         }
-        .bottom-strip img { 
-            height: 25px; /* تكبير الشعارات قليلاً لسهولة القراءة */
-            width: auto; 
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); 
-            max-width: 100px; /* ضمان عدم تخطي العرض */
-        }
+        .footer-strip img { height: 22px; width: auto; opacity: 0.9; }
 
-        @media print { .no-print { display: none; } #referral-card { box-shadow: none; border-radius: 0; width: 100%; height: 100%; } }
+        @media print { .no-print { display: none; } }
     </style>
 </head>
 <body>
 
     <div id="referral-card">
         <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/my-bg.JPG" class="card-bg">
+        
         <div class="content-layer">
-            <div class="flex justify-between items-center relative no-print">
-                <div class="bg-white px-4 py-1 rounded-lg border-b-4 border-yellow-400 text-blue-900 font-black shadow-sm" id="display-consultant">مصطفى</div>
-                <div id="platform-logo-container">
-                    <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/logo.png" class="platform-logo-img">
+            <div class="top-header">
+                <div class="consultant-tag" id="display-consultant">مصطفى</div>
+                <div class="mini-logo-box">
+                    <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/logo.png">
                 </div>
             </div>
 
-            <div class="mt-4">
-                <h3 class="text-lg font-bold">إهداء حصري وخاص من <span id="display-student" class="text-yellow-400 font-black text-xl">بندر الحربي</span></h3>
-                <h1 class="text-2xl font-black leading-tight mt-1">ابدأ تعلّم اللغة الانجليزية مع 51talk</h1>
+            <div class="mt-2">
+                <h3 class="text-md font-bold">إهداء حصري وخاص من <span id="display-student" class="text-yellow-400 font-black text-lg">بندر الحربي</span></h3>
+                <h1 class="text-2xl font-black leading-tight">ابدأ تعلّم اللغة الانجليزية مع 51talk</h1>
             </div>
 
             <div class="grid grid-cols-2 gap-2 my-2">
@@ -108,49 +90,34 @@
                 <div class="glass-item">⏳ حصص فردية وأوقات مرنة</div>
             </div>
 
-            <div class="mb-4">
+            <div>
                 <div id="qrcode"></div>
-                <p class="mt-2 font-black text-sm italic text-white drop-shadow-md">امسح الكود للحجز المباشر</p>
-                
-                <div class="phone-box-btn no-print">
-                    <svg class="whatsapp-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="white">
-                        <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.2 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.2-117zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.4-8.6-44.5-27.4-16.4-14.6-27.5-32.8-30.7-38.3-3.2-5.5-.3-8.5 2.5-11.2 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.2 3.7-5.5 5.5-9.2 1.9-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.6 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
-                    </svg>
+                <p class="text-xs font-bold text-white drop-shadow-md">امسح الكود للحجز المباشر</p>
+            </div>
+
+            <div class="phone-container">
+                <div class="phone-box-btn">
+                    <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.53 2 2.04 6.48 2.04 12C2.04 13.76 2.5 15.41 3.3 16.85L2 21.69L6.96 20.41C8.35 21.16 9.94 21.59 11.63 21.59C11.77 21.59 11.91 21.59 12.04 21.59C17.55 21.59 22.04 17.11 22.04 11.59C22.04 6.08 17.55 1.59 12.04 1.59M12.04 3.59C16.63 3.59 20.41 7.35 20.41 11.59C20.41 15.83 16.63 19.59 12.04 19.59C10.47 19.59 9.03 19.15 7.81 18.42L7.52 18.25L4.54 19.03L5.33 16.14L5.13 15.83C4.33 14.56 3.91 13.09 3.91 11.59C3.91 7.35 7.68 3.59 12.27 3.59H12.04M9.04 7.59C8.83 7.59 8.5 7.66 8.22 7.97C7.94 8.27 7.16 9.04 7.16 10.59C7.16 12.14 8.28 13.65 8.44 13.86C8.59 14.07 10.62 17.21 13.73 18.56C14.48 18.88 15.05 19.07 15.5 19.21C16.25 19.45 16.94 19.41 17.48 19.33C18.09 19.24 19.35 18.57 19.61 17.84C19.87 17.11 19.87 16.48 19.79 16.35C19.72 16.22 19.54 16.15 19.28 16.03C19.03 15.9 17.78 15.29 17.55 15.21C17.32 15.13 17.16 15.09 17 15.32C16.83 15.55 16.35 16.11 16.2 16.28C16.05 16.46 15.9 16.48 15.65 16.35C15.4 16.22 14.59 15.96 13.63 15.1C12.88 14.43 12.38 13.61 12.23 13.35C12.09 13.1 12.21 12.96 12.35 12.83C12.47 12.7 12.62 12.5 12.75 12.35C12.89 12.2 12.93 12.1 13.03 11.9C13.13 11.7 13.08 11.53 13.03 11.4C12.95 11.28 12.35 9.79 12.1 9.18C11.85 8.58 11.6 8.67 11.41 8.67C11.23 8.67 11.03 8.67 10.82 8.67C10.62 8.67 10.28 8.75 10 9.06C9.72 9.37 9.04 10.04 9.04 11.39C9.04 12.74 10.03 14.04 10.17 14.24C10.31 14.44 12.11 17.21 14.86 18.4C15.52 18.68 16.02 18.85 16.41 18.97C17.08 19.19 17.69 19.16 18.17 19.09C18.7 19.01 19.8 18.42 20.03 17.78C20.26 17.15 20.26 16.61 20.19 16.5C20.12 16.39 19.97 16.33 19.74 16.22" /></svg>
                     <span id="display-phone">962775552764+</span>
                 </div>
             </div>
-            
-            <div class="bottom-strip no-print">
-                <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/tabby.png">
-                <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/tamara.png">
-            </div>
+        </div>
+
+        <div class="footer-strip no-print">
+            <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/tabby.png">
+            <img src="https://raw.githubusercontent.com/bpiy-netizen/referral-project/refs/heads/main/tamara.png">
         </div>
     </div>
 
     <div class="no-print mt-6 bg-white p-6 rounded-3xl shadow-xl w-full max-w-sm mx-auto">
-        <input type="text" id="input-student" placeholder="اسم الطالب" class="w-full border p-3 rounded-xl text-right mb-2 outline-none focus:border-blue-500" oninput="updateCard()">
-        <input type="text" id="input-consultant" placeholder="اسم المستشار" class="w-full border p-3 rounded-xl text-right mb-2 outline-none focus:border-blue-500" oninput="updateCard()">
-        <input type="text" id="input-phone" placeholder="962XXXXXXXX" class="w-full border p-3 rounded-xl text-right mb-4 outline-none focus:border-blue-500" oninput="updateCard()">
-        
-        <p class="text-xs text-center text-gray-500 mb-4">قم بتعبئة البيانات ثم خذ "لقطة شاشة" (Screenshot) للبوستر أعلاه.</p>
-        
-        <button onclick="window.print()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg mb-2 flex items-center justify-center gap-2 hover:bg-blue-700 transition-all active:scale-95">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <span>حفظ البوستر كـ PDF بجودة عالية</span>
-        </button>
+        <input type="text" id="input-student" placeholder="اسم الطالب" class="w-full border p-3 rounded-xl text-right mb-2 outline-none" oninput="updateCard()">
+        <input type="text" id="input-consultant" placeholder="اسم المستشار" class="w-full border p-3 rounded-xl text-right mb-2 outline-none" oninput="updateCard()">
+        <input type="text" id="input-phone" placeholder="962XXXXXXXX" class="w-full border p-3 rounded-xl text-right mb-4 outline-none" oninput="updateCard()">
+        <button onclick="window.print()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg">حفظ البوستر</button>
     </div>
 
     <script>
-        // توليد QR بدقة متوسطة لضمان الوضوح والسرعة
-        let qrcode = new QRCode(document.getElementById("qrcode"), {
-            width: 160,
-            height: 160,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.M
-        });
+        let qrcode = new QRCode(document.getElementById("qrcode"), { width: 140, height: 140 });
 
         function updateCard() {
             const student = document.getElementById('input-student').value || "بندر الحربي";
@@ -161,7 +128,6 @@
             document.getElementById('display-consultant').innerText = consultant;
             document.getElementById('display-phone').innerText = phone + "+";
 
-            // تنظيف الرقم من أي رموز وتأكيد تنسيق WhatsApp المباشر
             const cleanPhone = phone.replace(/\D/g, ''); 
             const message = encodeURIComponent(`مرحبا ${consultant}، أنا من طرف ${student} وأرغب في تجربة حصة مجانية`);
             
