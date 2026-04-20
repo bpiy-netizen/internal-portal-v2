@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>51Talk - QR Update Only</title>
+    <title>51Talk - Final QR Check</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@
 
         .glass-item { background: rgba(255, 255, 255, 0.95); border-radius: 1rem; padding: 8px; color: #1e3a8a; font-weight: bold; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 5px; }
         
-        /* تعديل الـ QR ليصبح أكثر دقة */
+        /* إطار الـ QR Code */
         #qrcode { 
             background: white; 
             padding: 10px; 
@@ -118,11 +118,13 @@
     </div>
 
     <script>
-        // التعديل فقط هنا: زيادة مستوى الدقة (CorrectLevel) وحجم الكود
+        // التعديل المطلوب: جعل الـ QR مطابقاً للنسخة الواضحة جداً
         let qrcode = new QRCode(document.getElementById("qrcode"), { 
-            width: 160, 
-            height: 160,
-            correctLevel : QRCode.CorrectLevel.H // تم تغييره لـ High لزيادة تحمل ضعف الجودة
+            width: 150, 
+            height: 150,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.M // المستوى المتوسط (M) هو الأفضل للوضوح الكلاسيكي وسهولة المسح
         });
 
         function updateCard() {
