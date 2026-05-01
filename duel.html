@@ -16,7 +16,6 @@
         .vs-badge { background: #ef4444; color: white; padding: 4px 12px; border-radius: 8px; font-weight: 900; font-size: 12px; }
         .progress-bar { height: 28px; border-radius: 14px; background: #475569; overflow: hidden; display: flex; border: 2px solid #1e293b; position: relative; }
         .progress-fill { height: 100%; transition: width 1s ease-in-out; }
-        .score-text { position: absolute; width: 100%; text-align: center; font-size: 11px; font-weight: 900; line-height: 24px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); z-index: 10; }
         .admin-panel { background: #1e293b; padding: 25px; border-radius: 24px; margin-top: 40px; border: 2px dashed #475569; display: none; }
     </style>
 </head>
@@ -24,8 +23,8 @@
 
     <div class="max-w-md mx-auto">
         <header class="text-center mb-8">
-            <h1 class="text-5xl font-black text-yellow-400 italic tracking-tighter">STARS DUEL</h1>
-            <p class="text-gray-400 text-sm mt-2 font-bold tracking-widest">1 MAY TO 8TH MAY</p>
+            <h1 class="text-5xl font-black text-yellow-400 italic tracking-tighter uppercase">STARS DUEL</h1>
+            <p class="text-white bg-blue-700 inline-block px-4 py-1 text-xs mt-2 font-bold tracking-widest rounded-md">1ST MAY - 8TH MAY</p>
         </header>
 
         <div id="display-area">
@@ -79,7 +78,6 @@
                             </div>
                         </div>
                         <div class="progress-bar">
-                            <div class="score-text">مواجهة النجوم</div>
                             <div class="progress-fill bg-blue-600 shadow-[inset_-5px_0_10px_rgba(0,0,0,0.3)]" style="width: ${p1_p}%"></div>
                             <div class="progress-fill bg-pink-600 shadow-[inset_5px_0_10px_rgba(0,0,0,0.3)]" style="width: ${p2_p}%"></div>
                         </div>
