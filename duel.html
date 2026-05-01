@@ -25,7 +25,7 @@
     <div class="max-w-md mx-auto">
         <header class="text-center mb-8">
             <h1 class="text-5xl font-black text-yellow-400 italic tracking-tighter">STARS DUEL</h1>
-            <p class="text-gray-400 text-xs mt-2 italic">بوابة التحدي والمبيعات اليومية</p>
+            <p class="text-gray-400 text-sm mt-2 font-bold tracking-widest">1 MAY TO 8TH MAY</p>
         </header>
 
         <div id="display-area">
@@ -44,7 +44,6 @@
     </div>
 
     <script>
-        // مصفوفة البيانات الأساسية
         let duels = [
             { p1: "Mustafa", p2: "Lana", s1: 0, s2: 0 },
             { p1: "Hadeel", p2: "Hussam", s1: 0, s2: 0 },
@@ -55,7 +54,6 @@
             { p1: "Laila", p2: "Omar", s1: 0, s2: 0 }
         ];
 
-        // وظيفة لعرض اللوحة الرئيسية فقط
         function renderDisplay() {
             const area = document.getElementById('display-area');
             area.innerHTML = '';
@@ -81,7 +79,7 @@
                             </div>
                         </div>
                         <div class="progress-bar">
-                            <div class="score-text">مجموع المواجهة: ${total} ريال</div>
+                            <div class="score-text">مواجهة النجوم</div>
                             <div class="progress-fill bg-blue-600 shadow-[inset_-5px_0_10px_rgba(0,0,0,0.3)]" style="width: ${p1_p}%"></div>
                             <div class="progress-fill bg-pink-600 shadow-[inset_5px_0_10px_rgba(0,0,0,0.3)]" style="width: ${p2_p}%"></div>
                         </div>
@@ -89,7 +87,6 @@
             });
         }
 
-        // إعداد لوحة التحكم (مرة واحدة عند الفتح)
         function setupAdmin() {
             const ctrl = document.getElementById('controls');
             ctrl.innerHTML = '';
@@ -110,7 +107,6 @@
             });
         }
 
-        // تطبيق التغييرات وإغلاق اللوحة
         function applyChanges() {
             duels.forEach((d, i) => {
                 d.s1 = document.getElementById(`input-${i}-1`).value || 0;
