@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team 4 Stars Duel</title>
+    <title>Stars Duel - Team 4</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -14,46 +14,46 @@
             border-right: 5px solid #facc15; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
         .vs-badge { background: #ef4444; color: white; padding: 4px 12px; border-radius: 8px; font-weight: 900; font-size: 12px; }
-        .progress-bar { height: 24px; border-radius: 12px; background: #475569; overflow: hidden; display: flex; border: 2px solid #1e293b; position: relative; }
-        .progress-fill { height: 100%; transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .score-text { position: absolute; width: 100%; text-align: center; font-size: 12px; font-weight: 900; line-height: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .progress-bar { height: 28px; border-radius: 14px; background: #475569; overflow: hidden; display: flex; border: 2px solid #1e293b; position: relative; }
+        .progress-fill { height: 100%; transition: width 1s ease-in-out; }
+        .score-text { position: absolute; width: 100%; text-align: center; font-size: 11px; font-weight: 900; line-height: 24px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); z-index: 10; }
         .admin-panel { background: #1e293b; padding: 25px; border-radius: 24px; margin-top: 40px; border: 2px dashed #475569; display: none; }
+        input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
 <body>
 
     <div class="max-w-md mx-auto">
         <header class="text-center mb-8">
-            <div class="inline-block bg-yellow-400 text-blue-900 px-4 py-1 rounded-full font-black text-sm mb-2">TEAM 4 SUPERSTARS</div>
-            <h1 class="text-4xl font-black text-white">نزال المبيعات 🔥</h1>
-            <p class="text-gray-400 text-xs mt-2">المستهدف اليومي لكل نزال: 100%</p>
+            <h1 class="text-5xl font-black text-yellow-400 italic tracking-tighter">STARS DUEL</h1>
+            <p class="text-gray-400 text-xs mt-2 italic">بوابة التحدي والمبيعات اليومية</p>
         </header>
 
         <div id="display-area">
             <!-- المواجهات ستظهر هنا -->
         </div>
 
-        <button onclick="document.getElementById('admin').style.display='block'" class="w-full mt-10 text-gray-700 text-xs hover:text-gray-400 transition-colors">إدارة النظام ⚙️</button>
+        <button onclick="document.getElementById('admin').style.display='block'" class="w-full mt-10 text-gray-700 text-[10px] hover:text-gray-400 transition-colors underline">إعدادات لوحة التحكم ⚙️</button>
 
         <div id="admin" class="admin-panel">
-            <h2 class="text-xl font-bold mb-6 text-yellow-400 text-center">لوحة تحكم التيم ليدر</h2>
-            <div id="controls" class="space-y-6">
-                <!-- متحكمات الأرقام -->
+            <h2 class="text-xl font-bold mb-6 text-yellow-400 text-center">تحديث مبيعات الفريق 💰</h2>
+            <div id="controls" class="space-y-4">
+                <!-- خانات إدخال الأرقام -->
             </div>
-            <button onclick="document.getElementById('admin').style.display='none'" class="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all">إغلاق اللوحة</button>
+            <button onclick="document.getElementById('admin').style.display='none'" class="w-full mt-8 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all">تحديث اللوحة وحفظ ✅</button>
         </div>
     </div>
 
     <script>
-        // مصفوفة الأسماء التي زودتني بها
+        // مصفوفة البيانات مع إضافة خانة المبيعات بالريال
         let duels = [
-            { p1: "Mustafa", p2: "Lana", s1: 50 },
-            { p1: "Hadeel", p2: "Hussam", s1: 50 },
-            { p1: "Atrash", p2: "Fasiel", s1: 50 },
-            { p1: "Makahleh", p2: "Eqbal", s1: 50 },
-            { p1: "Fares", p2: "Khaldon", s1: 50 },
-            { p1: "Shalan", p2: "Saif", s1: 50 },
-            { p1: "Laila", p2: "Omar", s1: 50 }
+            { p1: "Mustafa", p2: "Lana", s1: 0, s2: 0 },
+            { p1: "Hadeel", p2: "Hussam", s1: 0, s2: 0 },
+            { p1: "Atrash", p2: "Fasiel", s1: 0, s2: 0 },
+            { p1: "Makahleh", p2: "Eqbal", s1: 0, s2: 0 },
+            { p1: "Fares", p2: "Khaldon", s1: 0, s2: 0 },
+            { p1: "Shalan", p2: "Saif", s1: 0, s2: 0 },
+            { p1: "Laila", p2: "Omar", s1: 0, s2: 0 }
         ];
 
         function render() {
@@ -63,31 +63,45 @@
             ctrl.innerHTML = '';
 
             duels.forEach((d, i) => {
-                // واجهة العرض
+                // حساب النسبة المئوية للشريط (إجمالي الطرفين)
+                let total = parseFloat(d.s1) + parseFloat(d.s2);
+                let p1_percent = total === 0 ? 50 : (parseFloat(d.s1) / total) * 100;
+                let p2_percent = total === 0 ? 50 : (parseFloat(d.s2) / total) * 100;
+
+                // واجهة العرض (بالريال)
                 area.innerHTML += `
                     <div class="duel-card">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xl font-black ${d.s1 > 50 ? 'text-yellow-400' : 'text-white'}">${d.p1}</span>
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex flex-col">
+                                <span class="text-lg font-black ${parseFloat(d.s1) > parseFloat(d.s2) ? 'text-yellow-400' : 'text-white'}">${d.p1}</span>
+                                <span class="text-[10px] text-gray-400">${d.s1} ريال</span>
+                            </div>
                             <span class="vs-badge">VS</span>
-                            <span class="text-xl font-black ${d.s1 < 50 ? 'text-yellow-400' : 'text-white'}">${d.p2}</span>
+                            <div class="flex flex-col items-end">
+                                <span class="text-lg font-black ${parseFloat(d.s2) > parseFloat(d.s1) ? 'text-yellow-400' : 'text-white'}">${d.p2}</span>
+                                <span class="text-[10px] text-gray-400">${d.s2} ريال</span>
+                            </div>
                         </div>
                         <div class="progress-bar">
-                            <div class="score-text">${d.s1}% VS ${100-d.s1}%</div>
-                            <div class="progress-fill bg-blue-600" style="width: ${d.s1}%"></div>
-                            <div class="progress-fill bg-pink-600" style="width: ${100-d.s1}%"></div>
+                            <div class="score-text">مجموع المواجهة: ${total} ريال</div>
+                            <div class="progress-fill bg-blue-600 shadow-[inset_-5px_0_10px_rgba(0,0,0,0.3)]" style="width: ${p1_percent}%"></div>
+                            <div class="progress-fill bg-pink-600 shadow-[inset_5px_0_10px_rgba(0,0,0,0.3)]" style="width: ${p2_percent}%"></div>
                         </div>
                     </div>`;
 
-                // واجهة التحكم
+                // واجهة التحكم (خانات إدخال أرقام)
                 ctrl.innerHTML += `
-                    <div class="bg-slate-800 p-4 rounded-xl">
-                        <div class="flex justify-between text-xs mb-2">
-                            <span>${d.p1}</span>
-                            <span>${d.p2}</span>
+                    <div class="bg-slate-800 p-3 rounded-xl flex items-center justify-between gap-2">
+                        <div class="flex flex-col w-1/2">
+                            <label class="text-[10px] text-gray-400 mb-1">${d.p1}</label>
+                            <input type="number" value="${d.s1}" oninput="duels[${i}].s1=this.value || 0; render();" 
+                                   class="bg-slate-900 text-white text-sm p-2 rounded border border-gray-700 focus:border-yellow-400 outline-none">
                         </div>
-                        <input type="range" min="0" max="100" value="${d.s1}" 
-                               oninput="duels[${i}].s1=this.value; render();" 
-                               class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-400">
+                        <div class="flex flex-col w-1/2">
+                            <label class="text-[10px] text-gray-400 mb-1 text-left">${d.p2}</label>
+                            <input type="number" value="${d.s2}" oninput="duels[${i}].s2=this.value || 0; render();" 
+                                   class="bg-slate-900 text-white text-sm p-2 rounded border border-gray-700 focus:border-yellow-400 outline-none text-left">
+                        </div>
                     </div>`;
             });
         }
