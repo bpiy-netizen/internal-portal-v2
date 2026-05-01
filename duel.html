@@ -18,7 +18,6 @@
         .progress-fill { height: 100%; transition: width 1s ease-in-out; }
         .score-text { position: absolute; width: 100%; text-align: center; font-size: 11px; font-weight: 900; line-height: 24px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); z-index: 10; }
         .admin-panel { background: #1e293b; padding: 25px; border-radius: 24px; margin-top: 40px; border: 2px dashed #475569; display: none; }
-        input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
 <body>
@@ -33,19 +32,19 @@
             <!-- المواجهات ستظهر هنا -->
         </div>
 
-        <button onclick="document.getElementById('admin').style.display='block'" class="w-full mt-10 text-gray-700 text-[10px] hover:text-gray-400 transition-colors underline">إعدادات لوحة التحكم ⚙️</button>
+        <button onclick="document.getElementById('admin').style.display='block'; setupAdmin();" class="w-full mt-10 text-gray-700 text-[10px] hover:text-gray-400 transition-colors underline">إعدادات لوحة التحكم ⚙️</button>
 
         <div id="admin" class="admin-panel">
             <h2 class="text-xl font-bold mb-6 text-yellow-400 text-center">تحديث مبيعات الفريق 💰</h2>
-            <div id="controls" class="space-y-4">
+            <div id="controls" class="grid grid-cols-1 gap-4">
                 <!-- خانات إدخال الأرقام -->
             </div>
-            <button onclick="document.getElementById('admin').style.display='none'" class="w-full mt-8 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all">تحديث اللوحة وحفظ ✅</button>
+            <button onclick="applyChanges()" class="w-full mt-8 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg">تحديث اللوحة وحفظ ✅</button>
         </div>
     </div>
 
     <script>
-        // مصفوفة البيانات مع إضافة خانة المبيعات بالريال
+        // مصفوفة البيانات الأساسية
         let duels = [
             { p1: "Mustafa", p2: "Lana", s1: 0, s2: 0 },
             { p1: "Hadeel", p2: "Hussam", s1: 0, s2: 0 },
@@ -56,57 +55,73 @@
             { p1: "Laila", p2: "Omar", s1: 0, s2: 0 }
         ];
 
-        function render() {
+        // وظيفة لعرض اللوحة الرئيسية فقط
+        function renderDisplay() {
             const area = document.getElementById('display-area');
-            const ctrl = document.getElementById('controls');
             area.innerHTML = '';
-            ctrl.innerHTML = '';
 
-            duels.forEach((d, i) => {
-                // حساب النسبة المئوية للشريط (إجمالي الطرفين)
-                let total = parseFloat(d.s1) + parseFloat(d.s2);
-                let p1_percent = total === 0 ? 50 : (parseFloat(d.s1) / total) * 100;
-                let p2_percent = total === 0 ? 50 : (parseFloat(d.s2) / total) * 100;
+            duels.forEach((d) => {
+                let s1 = parseFloat(d.s1) || 0;
+                let s2 = parseFloat(d.s2) || 0;
+                let total = s1 + s2;
+                let p1_p = total === 0 ? 50 : (s1 / total) * 100;
+                let p2_p = total === 0 ? 50 : (s2 / total) * 100;
 
-                // واجهة العرض (بالريال)
                 area.innerHTML += `
                     <div class="duel-card">
                         <div class="flex justify-between items-center mb-2">
                             <div class="flex flex-col">
-                                <span class="text-lg font-black ${parseFloat(d.s1) > parseFloat(d.s2) ? 'text-yellow-400' : 'text-white'}">${d.p1}</span>
-                                <span class="text-[10px] text-gray-400">${d.s1} ريال</span>
+                                <span class="text-lg font-black ${s1 > s2 ? 'text-yellow-400' : 'text-white'}">${d.p1}</span>
+                                <span class="text-[10px] text-gray-400">${s1} ريال</span>
                             </div>
                             <span class="vs-badge">VS</span>
                             <div class="flex flex-col items-end">
-                                <span class="text-lg font-black ${parseFloat(d.s2) > parseFloat(d.s1) ? 'text-yellow-400' : 'text-white'}">${d.p2}</span>
-                                <span class="text-[10px] text-gray-400">${d.s2} ريال</span>
+                                <span class="text-lg font-black ${s2 > s1 ? 'text-yellow-400' : 'text-white'}">${d.p2}</span>
+                                <span class="text-[10px] text-gray-400">${s2} ريال</span>
                             </div>
                         </div>
                         <div class="progress-bar">
                             <div class="score-text">مجموع المواجهة: ${total} ريال</div>
-                            <div class="progress-fill bg-blue-600 shadow-[inset_-5px_0_10px_rgba(0,0,0,0.3)]" style="width: ${p1_percent}%"></div>
-                            <div class="progress-fill bg-pink-600 shadow-[inset_5px_0_10px_rgba(0,0,0,0.3)]" style="width: ${p2_percent}%"></div>
-                        </div>
-                    </div>`;
-
-                // واجهة التحكم (خانات إدخال أرقام)
-                ctrl.innerHTML += `
-                    <div class="bg-slate-800 p-3 rounded-xl flex items-center justify-between gap-2">
-                        <div class="flex flex-col w-1/2">
-                            <label class="text-[10px] text-gray-400 mb-1">${d.p1}</label>
-                            <input type="number" value="${d.s1}" oninput="duels[${i}].s1=this.value || 0; render();" 
-                                   class="bg-slate-900 text-white text-sm p-2 rounded border border-gray-700 focus:border-yellow-400 outline-none">
-                        </div>
-                        <div class="flex flex-col w-1/2">
-                            <label class="text-[10px] text-gray-400 mb-1 text-left">${d.p2}</label>
-                            <input type="number" value="${d.s2}" oninput="duels[${i}].s2=this.value || 0; render();" 
-                                   class="bg-slate-900 text-white text-sm p-2 rounded border border-gray-700 focus:border-yellow-400 outline-none text-left">
+                            <div class="progress-fill bg-blue-600 shadow-[inset_-5px_0_10px_rgba(0,0,0,0.3)]" style="width: ${p1_p}%"></div>
+                            <div class="progress-fill bg-pink-600 shadow-[inset_5px_0_10px_rgba(0,0,0,0.3)]" style="width: ${p2_p}%"></div>
                         </div>
                     </div>`;
             });
         }
 
-        render();
+        // إعداد لوحة التحكم (مرة واحدة عند الفتح)
+        function setupAdmin() {
+            const ctrl = document.getElementById('controls');
+            ctrl.innerHTML = '';
+            duels.forEach((d, i) => {
+                ctrl.innerHTML += `
+                    <div class="bg-slate-800 p-3 rounded-xl flex items-center justify-between gap-2 border border-slate-700">
+                        <div class="flex flex-col w-1/2">
+                            <label class="text-[10px] text-gray-500 mb-1">${d.p1}</label>
+                            <input type="number" id="input-${i}-1" value="${d.s1}" 
+                                   class="bg-slate-900 text-white text-sm p-2 rounded border border-slate-600 focus:border-yellow-400 outline-none">
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label class="text-[10px] text-gray-500 mb-1 text-left">${d.p2}</label>
+                            <input type="number" id="input-${i}-2" value="${d.s2}" 
+                                   class="bg-slate-900 text-white text-sm p-2 rounded border border-slate-600 focus:border-yellow-400 outline-none text-left">
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // تطبيق التغييرات وإغلاق اللوحة
+        function applyChanges() {
+            duels.forEach((d, i) => {
+                d.s1 = document.getElementById(`input-${i}-1`).value || 0;
+                d.s2 = document.getElementById(`input-${i}-2`).value || 0;
+            });
+            renderDisplay();
+            document.getElementById('admin').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        renderDisplay();
     </script>
 </body>
 </html>
