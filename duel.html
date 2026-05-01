@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team 4 Stars Duel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #0f172a; color: white; padding: 20px; }
+        .duel-card { 
+            background: linear-gradient(145deg, #1e293b, #334155);
+            border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 1rem;
+            border-right: 5px solid #facc15; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .vs-badge { background: #ef4444; color: white; padding: 4px 12px; border-radius: 8px; font-weight: 900; font-size: 12px; }
+        .progress-bar { height: 24px; border-radius: 12px; background: #475569; overflow: hidden; display: flex; border: 2px solid #1e293b; position: relative; }
+        .progress-fill { height: 100%; transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .score-text { position: absolute; width: 100%; text-align: center; font-size: 12px; font-weight: 900; line-height: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .admin-panel { background: #1e293b; padding: 25px; border-radius: 24px; margin-top: 40px; border: 2px dashed #475569; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="max-w-md mx-auto">
+        <header class="text-center mb-8">
+            <div class="inline-block bg-yellow-400 text-blue-900 px-4 py-1 rounded-full font-black text-sm mb-2">TEAM 4 SUPERSTARS</div>
+            <h1 class="text-4xl font-black text-white">نزال المبيعات 🔥</h1>
+            <p class="text-gray-400 text-xs mt-2">المستهدف اليومي لكل نزال: 100%</p>
+        </header>
+
+        <div id="display-area">
+            <!-- المواجهات ستظهر هنا -->
+        </div>
+
+        <button onclick="document.getElementById('admin').style.display='block'" class="w-full mt-10 text-gray-700 text-xs hover:text-gray-400 transition-colors">إدارة النظام ⚙️</button>
+
+        <div id="admin" class="admin-panel">
+            <h2 class="text-xl font-bold mb-6 text-yellow-400 text-center">لوحة تحكم التيم ليدر</h2>
+            <div id="controls" class="space-y-6">
+                <!-- متحكمات الأرقام -->
+            </div>
+            <button onclick="document.getElementById('admin').style.display='none'" class="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all">إغلاق اللوحة</button>
+        </div>
+    </div>
+
+    <script>
+        // مصفوفة الأسماء التي زودتني بها
+        let duels = [
+            { p1: "Mustafa", p2: "Lana", s1: 50 },
+            { p1: "Hadeel", p2: "Hussam", s1: 50 },
+            { p1: "Atrash", p2: "Fasiel", s1: 50 },
+            { p1: "Makahleh", p2: "Eqbal", s1: 50 },
+            { p1: "Fares", p2: "Khaldon", s1: 50 },
+            { p1: "Shalan", p2: "Saif", s1: 50 },
+            { p1: "Laila", p2: "Omar", s1: 50 }
+        ];
+
+        function render() {
+            const area = document.getElementById('display-area');
+            const ctrl = document.getElementById('controls');
+            area.innerHTML = '';
+            ctrl.innerHTML = '';
+
+            duels.forEach((d, i) => {
+                // واجهة العرض
+                area.innerHTML += `
+                    <div class="duel-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xl font-black ${d.s1 > 50 ? 'text-yellow-400' : 'text-white'}">${d.p1}</span>
+                            <span class="vs-badge">VS</span>
+                            <span class="text-xl font-black ${d.s1 < 50 ? 'text-yellow-400' : 'text-white'}">${d.p2}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="score-text">${d.s1}% VS ${100-d.s1}%</div>
+                            <div class="progress-fill bg-blue-600" style="width: ${d.s1}%"></div>
+                            <div class="progress-fill bg-pink-600" style="width: ${100-d.s1}%"></div>
+                        </div>
+                    </div>`;
+
+                // واجهة التحكم
+                ctrl.innerHTML += `
+                    <div class="bg-slate-800 p-4 rounded-xl">
+                        <div class="flex justify-between text-xs mb-2">
+                            <span>${d.p1}</span>
+                            <span>${d.p2}</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="${d.s1}" 
+                               oninput="duels[${i}].s1=this.value; render();" 
+                               class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-400">
+                    </div>`;
+            });
+        }
+
+        render();
+    </script>
+</body>
+</html>
