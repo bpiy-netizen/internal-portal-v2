@@ -38,12 +38,13 @@
             <div id="controls" class="grid grid-cols-1 gap-4">
                 <!-- خانات إدخال الأرقام -->
             </div>
-            <button onclick="applyChanges()" class="w-full mt-8 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg">تحديث اللوحة وحفظ ✅</button>
+            <button onclick="applyChanges()" class="w-full mt-8 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg text-sm">تحديث وحفظ في المتصفح ✅</button>
         </div>
     </div>
 
     <script>
-        let duels = [
+        // محاولة تحميل البيانات المحفوظة، أو استخدام البيانات الافتراضية
+        const defaultData = [
             { p1: "Mustafa", p2: "Lana", s1: 0, s2: 0 },
             { p1: "Hadeel", p2: "Hussam", s1: 0, s2: 0 },
             { p1: "Atrash", p2: "Fasiel", s1: 0, s2: 0 },
@@ -52,6 +53,8 @@
             { p1: "Shalan", p2: "Saif", s1: 0, s2: 0 },
             { p1: "Laila", p2: "Omar", s1: 0, s2: 0 }
         ];
+
+        let duels = JSON.parse(localStorage.getItem('starsDuelData')) || defaultData;
 
         function renderDisplay() {
             const area = document.getElementById('display-area');
@@ -69,12 +72,12 @@
                         <div class="flex justify-between items-center mb-2">
                             <div class="flex flex-col">
                                 <span class="text-lg font-black ${s1 > s2 ? 'text-yellow-400' : 'text-white'}">${d.p1}</span>
-                                <span class="text-[10px] text-gray-400">${s1} ريال</span>
+                                <span class="text-[10px] text-gray-400 font-bold">${s1} ريال</span>
                             </div>
                             <span class="vs-badge">VS</span>
                             <div class="flex flex-col items-end">
                                 <span class="text-lg font-black ${s2 > s1 ? 'text-yellow-400' : 'text-white'}">${d.p2}</span>
-                                <span class="text-[10px] text-gray-400">${s2} ريال</span>
+                                <span class="text-[10px] text-gray-400 font-bold">${s2} ريال</span>
                             </div>
                         </div>
                         <div class="progress-bar">
@@ -110,11 +113,16 @@
                 d.s1 = document.getElementById(`input-${i}-1`).value || 0;
                 d.s2 = document.getElementById(`input-${i}-2`).value || 0;
             });
+            
+            // حفظ البيانات في ذاكرة المتصفح
+            localStorage.setItem('starsDuelData', JSON.stringify(duels));
+            
             renderDisplay();
             document.getElementById('admin').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // تشغيل العرض عند فتح الصفحة
         renderDisplay();
     </script>
 </body>
